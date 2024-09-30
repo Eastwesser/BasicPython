@@ -1,3 +1,6 @@
+import asyncio
+from abc import ABC, abstractmethod
+
 from flask import (
     Flask,
 )
@@ -5,7 +8,7 @@ from flask import (
 app = Flask(__name__)
 
 
-# 1. Переменные и константы
+# 1. Переменные и константы ============================================================================================
 @app.route('/variables')
 def show_variables_example():
     name = "Gordon Ramsay"
@@ -23,7 +26,7 @@ def show_variables_example():
     )
 
 
-# 2. Типы данных
+# 2. Типы данных =======================================================================================================
 @app.route('/datatypes')
 def datatypes_example():
     # IMMUTABLE
@@ -47,7 +50,7 @@ def datatypes_example():
     )
 
 
-# 3. Операции над типами данных
+# 3. Операции над типами данных ========================================================================================
 @app.route('/operations')
 def operations_example():
     # Операции над числами
@@ -79,7 +82,7 @@ def operations_example():
     )
 
 
-# Операторы
+# 4. Операторы =========================================================================================================
 @app.route('/operators')
 def operators_example():
     # Арифметические операторы
@@ -134,42 +137,277 @@ def operators_example():
     )
 
 
-# Управляющие структуры
+# 5. Управляющие структуры =============================================================================================
 @app.route('/control_structures')
 def control_structures_example():
     chef_experience = 5  # годы опыта
-    if chef_experience > 3:
-        return "Шеф получил повышение!"
+
+    # Условные операторы
+    if chef_experience > 10:
+        promotion_status = "Шеф назначен шеф-поваром ресторана!"
+    elif chef_experience > 5:
+        promotion_status = "Шеф получил повышение до главного шефа."
     else:
-        return "Шефу нужно еще подучиться."
+        promotion_status = "Шефу нужно еще подучиться."
+
+    # Цикл for
+    donut_names = [
+        "Glazed Donut",
+        "Chocolate Donut",
+        "Strawberry Donut",
+    ]
+    donut_list = []
+    for donut in donut_names:
+        donut_list.append(f"{donut} приготовлен.")
+
+    # Цикл while
+    donut_count = 0
+    while donut_count < len(donut_names):
+        donut_count += 1
+
+    return (
+        f"{promotion_status} "
+        f"Количество пончиков, приготовленных с использованием цикла while: {donut_count}. "
+        f"Список пончиков: {', '.join(donut_list)}"
+    )
 
 
-# Функции и методы
+# 6. Функции и методы ==================================================================================================
 @app.route('/functions')
 def functions_example():
+    # Функция, принимающая аргумент
     def cook_donut(quantity):
         return f"Повар приготовил {quantity} пончиков."
 
-    return cook_donut(12)
+    # Функция без аргументов
+    def chef_greeting():
+        return "Добро пожаловать на кухню!"
+
+    # Функция с несколькими аргументами
+    def calculate_total_cost(quantity, price_per_donut):
+        return quantity * price_per_donut
+
+    # Использование map для преобразования списка
+    donut_prices = [1.5, 2.0, 3.0]
+    total_prices = list(map(lambda price: price * 12, donut_prices))
+
+    # Методы строк
+    chef_name = "gordon ramsay"
+    uppercase_name = chef_name.upper()  # Преобразование к верхнему регистру
+    name_length = len(chef_name)  # Количество символов в строке
+
+    # Методы списков
+    donuts = ["Glazed", "Chocolate", "Strawberry"]
+    donuts.append("Vanilla")  # Добавление элемента в список
+    removed_donut = donuts.pop(1)  # Удаление элемента по индексу
+
+    return (
+        f"{cook_donut(12)} "
+        f"{chef_greeting()} "
+        f"Стоимость за дюжину пончиков: {total_prices}. "
+        f"Имя шефа в верхнем регистре: {uppercase_name}, длина имени: {name_length}. "
+        f"Пончики: {donuts}, удалённый пончик: {removed_donut}."
+    )
 
 
-# Асинхронное программирование
+# 7. Асинхронное программирование ======================================================================================
 @app.route('/async')
 def async_example():
-    return "Тут будет пример асинхронного кода для повара"
+    # Запускаем асинхронную задачу
+    result = asyncio.run(fetch_data())
+    return f"Полученные данные: {result}"
 
 
-# Классы и объекты
+# Асинхронная функция
+async def fetch_data():
+    # Имитация асинхронного вызова
+    await asyncio.sleep(2)  # Задержка в 2 секунды, имитирующая ожидание данных
+    return "Данные успешно получены!"
+
+
+# 8. Списки, множества и словари (карты) ===============================================================================
+@app.route('/collections')
+def collections_example():
+    # Пример работы со списком
+    donut_ingredients = ["мука", "сахар", "дрожжи", "молоко"]
+    donut_ingredients.append("яйцо")  # Добавление ингредиента в список
+
+    # Пример работы с множеством
+    unique_ingredients = {"мука", "сахар", "яйцо", "молоко"}
+    unique_ingredients.add("шоколад")  # Добавляем уникальный ингредиент
+    unique_ingredients.add("мука")  # Мука не добавится, так как уже есть
+
+    # Пример работы с картой (словарём)
+    donut_recipes = {
+        "классический пончик": ["мука", "сахар", "дрожжи", "яйцо"],
+        "шоколадный пончик": ["мука", "сахар", "шоколад", "яйцо"],
+    }
+    donut_recipes["ванильный пончик"] = ["мука", "сахар", "ваниль", "яйцо"]  # Добавление нового рецепта
+
+    return (
+        f"Ингредиенты для пончиков: {donut_ingredients}. "
+        f"Уникальные ингредиенты: {unique_ingredients}. "
+        f"Рецепты пончиков: {donut_recipes}."
+    )
+
+
+@app.route('/map_example')
+def map_example():
+    numbers = [1, 2, 3, 4, 5]
+    # Применим функцию, которая возводит числа в квадрат ко всем элементам списка
+    squared_numbers = list(map(lambda x: x ** 2, numbers))
+    return f"Квадраты чисел: {squared_numbers}"
+
+
+# 9. Работа с коллекциями ==============================================================================================
+@app.route('/collections_loop')
+def collections_loop_example():
+    # Список ингредиентов
+    donut_ingredients = ["мука", "сахар", "дрожжи", "молоко"]
+
+    # Перебор элементов списка
+    ingredients_list = []
+    for ingredient in donut_ingredients:
+        ingredients_list.append(f"Ингредиент: {ingredient}")
+
+    # Словарь с рецептами
+    donut_recipes = {
+        "классический пончик": ["мука", "сахар", "дрожжи", "яйцо"],
+        "шоколадный пончик": ["мука", "сахар", "шоколад", "яйцо"]
+    }
+
+    # Перебор элементов словаря
+    recipes_list = []
+    for donut, ingredients in donut_recipes.items():
+        recipes_list.append(f"{donut}: {', '.join(ingredients)}")
+
+    return (
+        f"Ингредиенты: {', '.join(ingredients_list)}. "
+        f"Рецепты: {', '.join(recipes_list)}."
+    )
+
+
+# 10.	Исключения, обработка исключений ===============================================================================
+@app.route('/exceptions')
+def exceptions_example():
+    try:
+        donuts_made = 12
+        hours_worked = 0  # У нас ошибка, деление на ноль!
+        donuts_per_hour = donuts_made / hours_worked
+    except ZeroDivisionError:
+        return "Ошибка: деление на ноль. Нельзя разделить количество пончиков на ноль часов!"
+
+    try:
+        ingredients = ["мука", "сахар", "дрожжи"]
+        # Попытка доступа к несуществующему элементу списка
+        secret_ingredient = ingredients[3]
+    except IndexError:
+        return "Ошибка: недопустимый индекс. Нет такого ингредиента в списке!"
+
+    return "Все исключения успешно обработаны."
+
+
+# 11. Классы и объекты =================================================================================================
 @app.route('/classes')
 def classes_example():
+    # Класс Повар
+    class Chef:
+        def __init__(self, name, specialty):
+            self.name = name  # Имя повара
+            self.specialty = specialty  # Специализация повара
+
+        def cook(self):
+            return f"{self.name}, который специализируется на {self.specialty}, готовит пирожное."
+
+    # Создание объекта повара
+    pastry_chef = Chef("Гарри", "десертах")
+    return pastry_chef.cook()
+
+
+# 12. Наследование, полиморфизм, инкапсуляция ==========================================================================
+
+# Наследование
+@app.route('/inheritance')
+def inheritance_example():
+    # Базовый класс Повар
     class Chef:
         def __init__(self, name):
             self.name = name
 
         def cook(self):
-            return f"{self.name} готовит пирожное."
+            return f"{self.name} готовит блюдо."
 
-    pastry_chef = Chef("Гарри")
+    # Класс кондитера, наследует от класса Повар
+    class PastryChef(Chef):
+        def cook(self):
+            return f"{self.name} готовит десерт."
+
+    # Создаём повара и кондитера
+    general_chef = Chef("Алексей")
+    pastry_chef = PastryChef("Гарри")
+
+    return f"{general_chef.cook()} <br> {pastry_chef.cook()}"
+
+
+# Полиморфизм
+@app.route('/polymorphism')
+def polymorphism_example():
+    class Chef:
+        def __init__(self, name):
+            self.name = name
+
+        def cook(self):
+            return f"{self.name} готовит обед."
+
+    class PastryChef(Chef):
+        def cook(self):
+            return f"{self.name} готовит торт."
+
+    # Полиморфизм: метод cook вызывается для разных объектов
+    def chef_cooking(chef):
+        return chef.cook()
+
+    chef1 = Chef("Алекс")
+    chef2 = PastryChef("Мария")
+
+    return f"{chef_cooking(chef1)} <br> {chef_cooking(chef2)}"
+
+
+# Инкапсуляция
+@app.route('/encapsulation')
+def encapsulation_example():
+    class Chef:
+        def __init__(self, name):
+            self.name = name
+            self.__secret_ingredient = "ваниль"  # Приватное поле
+
+        def cook(self):
+            return f"{self.name} готовит с секретным ингредиентом."
+
+        def get_secret_ingredient(self):
+            return self.__secret_ingredient
+
+    chef = Chef("Гарри")
+    return f"{chef.cook()} <br> Секретный ингредиент: {chef.get_secret_ingredient()}"
+
+
+# 13. Интерфейсы и абстрактные классы ==================================================================================
+@app.route('/abstract')
+def abstract_example():
+    # Абстрактный класс Повар
+    class Chef(ABC):
+        @abstractmethod
+        def cook(self):
+            pass
+
+    # Конкретный повар, который реализует абстрактный метод
+    class PastryChef(Chef):
+        def cook(self):
+            return "Кондитер готовит пирожное."
+
+    # Создание объекта класса
+    pastry_chef = PastryChef()
+
     return pastry_chef.cook()
 
 
