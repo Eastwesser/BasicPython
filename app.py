@@ -1,5 +1,9 @@
 import asyncio
-from abc import ABC, abstractmethod
+from abc import (
+    ABC,
+    abstractmethod,
+)
+from functools import reduce
 
 from flask import (
     Flask,
@@ -410,6 +414,130 @@ def abstract_example():
 
     return pastry_chef.cook()
 
+
+# 14. List Comprehension ===============================================================================================
+# Создаем список квадратов чисел от 0 до 9
+squares = [x ** 2 for x in range(10)]
+print(squares)  # Вывод: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+
+# 15. Генераторы и итераторы ===========================================================================================
+def my_generator():
+    for i in range(3):
+        yield i  # возвращает одно значение за раз
+
+
+gen = my_generator()
+for dish in gen:
+    print(f"Подали блюдо {dish}")
+
+
+# 16. Decorators =======================================================================================================
+def decorator(func):
+    def wrapper():
+        print("Приятного аппетита!")
+        func()
+        print("Убираем тарелку.")
+
+    return wrapper
+
+
+@decorator
+def serve_dish():
+    print("Подаем блюдо.")
+
+
+serve_dish()
+
+# 17. Context Managers =================================================================================================
+with open('recipe.txt', 'r') as f:
+    recipe = f.read()
+    print(recipe)
+
+# 18. Функциональное программирование ==================================================================================
+numbers = [1, 2, 3, 4]
+result = reduce(lambda x, y: x + y, numbers)
+print(result)  # Вывод: 10
+
+# Также есть map() и filter(), которые можно использовать:
+# Применяем функцию ко всем элементам
+result = list(map(lambda x: x * 2, numbers))  # [2, 4, 6, 8]
+print(result)
+
+# Фильтруем элементы
+filtered = list(filter(lambda x: x % 2 == 0, numbers))  # [2, 4]
+print(filtered)
+
+
+# 19. Шаблоны проектирования ===========================================================================================
+
+# Singleton (Одиночка)
+class HeadChef:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+
+# Создаём несколько "главных поваров"
+chef1 = HeadChef()
+chef2 = HeadChef()
+# Они оба указывают на один и тот же объект
+assert chef1 is chef2
+
+
+# Factory (Фабрика)
+class Pizza:
+    def prepare(self):
+        return "Готовим пиццу!"
+
+
+class Sushi:
+    def prepare(self):
+        return "Готовим суши!"
+
+
+class DishFactory:
+    @staticmethod
+    def get_dish(dish_type):
+        if dish_type == "pizza":
+            return Pizza()
+        elif dish_type == "sushi":
+            return Sushi()
+
+
+# Клиент заказывает блюдо
+dish = DishFactory.get_dish("pizza")
+print(dish.prepare())  # Вывод: "Готовим пиццу!"
+
+
+# Observer (Наблюдатель)
+class OrderObservable:
+    def __init__(self):
+        self._observers = []
+
+    def subscribe(self, observer):
+        self._observers.append(observer)
+
+    def notify(self, order):
+        for observer in self._observers:
+            observer.update(order)
+
+
+class Waiter:
+    def update(self, order):
+        print(f"Официант получает заказ: {order}")
+
+
+# Клиент делает заказ, а официант наблюдает за этим
+restaurant = OrderObservable()
+waiter = Waiter()
+restaurant.subscribe(waiter)
+restaurant.notify("Пицца Маргарита")
+
+# END ==================================================================================================================
 
 if __name__ == '__main__':
     app.run(debug=True)
