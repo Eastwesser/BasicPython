@@ -215,8 +215,15 @@ def functions_example():
 
 
 def is_palindrome(word):
-    if word == word[::-1]:
+    prepared_word = word.lower()
+    if prepared_word == prepared_word[::-1]:
         return True
+    else:
+        return False
+
+
+checking_palindrome = is_palindrome("radar")
+print(checking_palindrome)
 
 
 # 7. Асинхронное программирование ======================================================================================
