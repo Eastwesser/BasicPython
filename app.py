@@ -214,6 +214,11 @@ def functions_example():
     )
 
 
+def is_palindrome(word):
+    if word == word[::-1]:
+        return True
+
+
 # 7. Асинхронное программирование ======================================================================================
 @app.route('/async')
 def async_example():
