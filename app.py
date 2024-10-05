@@ -4,6 +4,7 @@ from abc import (
     abstractmethod,
 )
 from functools import reduce
+from typing import re
 
 from flask import (
     Flask,
@@ -214,6 +215,11 @@ def functions_example():
     )
 
 
+# ======================================================================================================================
+# Here are the tasks for testing backenders
+# ======================================================================================================================
+# TASK 1: PALINDROME
+# ======================================================================================================================
 def is_palindrome(word):
     prepared_word = word.lower()
     if prepared_word == prepared_word[::-1]:
@@ -225,6 +231,54 @@ def is_palindrome(word):
 checking_palindrome = is_palindrome("radar")
 print(checking_palindrome)
 
+
+# ======================================================================================================================
+# TASK 2: REGULARS FOR VALIDATION
+# ======================================================================================================================
+def valid_email(email):
+    reg = r'^[\s@]^'
+    return bool(re.match(reg, email))
+
+
+# ======================================================================================================================
+# TASK 3: REPLACE WORDS IN TEXT
+# ======================================================================================================================
+def replace_words(a, b, c):
+    # input_a = str(input())
+    # search_b = str(input())
+    # replace_c = str(input())
+
+    new_string = a.replace(b, c)
+    return new_string
+
+
+result = replace_words("The cat was so fat it couldn't jump", "fat", "big")
+print(result)
+
+
+# ======================================================================================================================
+# Task 4: FIND UNIQUE ELEMENTS
+# ======================================================================================================================
+def find_unique_elements(list_1, list_2):
+    set_1 = set(list_1)
+    set_2 = set(list_2)
+
+    unique_elements_1 = set_1 - set_2
+    unique_elements_2 = set_2 - set_1
+
+    result_unique_elements = list(unique_elements_1.union(unique_elements_2))
+    return result_unique_elements
+
+
+list_a = [1, 2, 3, 4, 5]
+list_b = [4, 5, 6, 7, 8]
+unique_elements_for_lists = find_unique_elements(list_a, list_b)
+print(unique_elements_for_lists)
+
+
+# ======================================================================================================================
+# End of the tasks
+# ======================================================================================================================
 
 # 7. Асинхронное программирование ======================================================================================
 @app.route('/async')
