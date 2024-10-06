@@ -222,10 +222,7 @@ def functions_example():
 # ======================================================================================================================
 def is_palindrome(word):
     prepared_word = word.lower()
-    if prepared_word == prepared_word[::-1]:
-        return True
-    else:
-        return False
+    return prepared_word == prepared_word[::-1]
 
 
 checking_palindrome = is_palindrome("radar")
@@ -233,26 +230,53 @@ print(checking_palindrome)
 
 
 # ======================================================================================================================
-# TASK 2: REGULARS FOR VALIDATION
+# TASK 2: REGULARS FOR E-MAIL VALIDATION
 # ======================================================================================================================
-def valid_email(email):
-    reg = r'^[\s@]^'
-    return bool(re.match(reg, email))
+def validate_inputs(email, phone, username):
+    # Регулярное выражение для email
+    email_reg = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+
+    # Регулярное выражение для телефона (формат +7 (xxx) xxx-xx-xx или подобные)
+    phone_reg = r'^\+?\d{1,4}?[-.\s]?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{2}[-.\s]?\d{2}$'
+
+    # Регулярное выражение для имени пользователя (допустим, от 3 до 16 символов, буквы, цифры, _ и .)
+    username_reg = r'^[a-zA-Z0-9_.]{3,16}$'
+
+    # Проверка email
+    valid_email = bool(re.match(email_reg, email))
+
+    # Проверка телефона
+    valid_phone = bool(re.match(phone_reg, phone))
+
+    # Проверка имени пользователя
+    valid_username = bool(re.match(username_reg, username))
+
+    return valid_email, valid_phone, valid_username
+
+
+# Пример использования:
+email = input("Введите email: ")
+phone = input("Введите телефон: ")
+username = input("Введите имя пользователя: ")
+
+result = validate_inputs(email, phone, username)
+print(f"Email: {result[0]}, Телефон: {result[1]}, Имя пользователя: {result[2]}")
 
 
 # ======================================================================================================================
 # TASK 3: REPLACE WORDS IN TEXT
 # ======================================================================================================================
 def replace_words(a, b, c):
-    # input_a = str(input())
-    # search_b = str(input())
-    # replace_c = str(input())
-
     new_string = a.replace(b, c)
     return new_string
 
 
-result = replace_words("The cat was so fat it couldn't jump", "fat", "big")
+# Пример с вводом данных
+a = input("Введите строку: ")
+b = input("Введите слово для поиска: ")
+c = input("Введите слово для замены: ")
+
+result = replace_words(a, b, c)
 print(result)
 
 
