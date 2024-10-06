@@ -1,10 +1,10 @@
 import asyncio
+import re
 from abc import (
     ABC,
     abstractmethod,
 )
 from functools import reduce
-from typing import re
 
 from flask import (
     Flask,
