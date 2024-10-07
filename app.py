@@ -266,8 +266,8 @@ print(f"Email: {result[0]}, Телефон: {result[1]}, Имя пользова
 # ======================================================================================================================
 # TASK 3: REPLACE WORDS IN TEXT
 # ======================================================================================================================
-def replace_words(a, b, c):
-    new_string = a.replace(b, c)
+def replace_words(main_string, find_words, replace_with):
+    new_string = main_string.replace(find_words, replace_with)
     return new_string
 
 
