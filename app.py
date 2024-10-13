@@ -272,11 +272,11 @@ def replace_words(main_string, find_words, replace_with):
 
 
 # Пример с вводом данных
-a = input("Введите строку: ")
-b = input("Введите слово для поиска: ")
-c = input("Введите слово для замены: ")
+your_string = input("Введите строку: ")
+find_this_word = input("Введите слово для поиска: ")
+replace_this_word = input("Введите слово для замены: ")
 
-result = replace_words(a, b, c)
+result = replace_words(your_string, find_this_word, replace_this_word)
 print(result)
 
 
